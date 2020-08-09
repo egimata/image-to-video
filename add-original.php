@@ -32,8 +32,16 @@ system($command);
 
 echo "Image transformed to video<p></p>";
 
+
+//zoom in video
+
+$command = 'ffmpeg -i uploads/out.mp4 -vf "scale=w=(1080*4):h=(1080*4), zoompan=z=\'min(pzoom+0.0013,1.3)\':d=1:x=\'iw/2-(iw/zoom/2)\':y=\'ih/2-(ih/zoom/2)\':s=900x900" uploads/zoomin.mp4';
+system($command);
+
+echo "Video Zoomed In <p></p>";
+
 // add overlay image to top right (logo)
-$command = 'ffmpeg -i uploads/out.mp4 -i uploads/descript.png -filter_complex "[0:v][1:v] overlay=25:25:enable=\'between(t,0,15)\'" -pix_fmt yuv420p -c:a copy uploads/overlay.mp4';
+$command = 'ffmpeg -i uploads/zoomin.mp4 -i uploads/descript.png -filter_complex "[0:v][1:v] overlay=25:25:enable=\'between(t,0,15)\'" -pix_fmt yuv420p -c:a copy uploads/overlay.mp4';
 system($command);
 
 echo "Logo overlay has been added<p></p>";
@@ -47,7 +55,7 @@ echo "Overlay has been added<p></p>";
 
 // add title with opacity and overlayed 
 
-$command = 'ffmpeg -i uploads/overlayborder.mp4 -filter_complex "[0:v]drawtext=fontfile=OpenSans-Regular.ttf:text=\'Ruku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i moll\':fontsize=30:fontcolor=ffffff:alpha=\'if(lt(t,1),0,if(lt(t,3.5),(t-3)/0.5,if(lt(t,13.5),1,if(lt(t,14),(0.5-(t-13.5))/0.5,0))))\':x=30:y=700" uploads/overlayborderandtext.mp4';
+$command = 'ffmpeg -i uploads/overlayborder.mp4 -filter_complex "[0:v]drawtext=fontfile=OpenSans-Regular.ttf:text=\'Ruku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i <p></p> mollRuku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i mollRuku Ruku osh i <p></p>mollRuku Ruku osh i moll\':fontsize=40:fontcolor=ffffff:alpha=\'if(lt(t,1),0,if(lt(t,3.5),(t-3)/0.5,if(lt(t,13.5),1,if(lt(t,14),(0.5-(t-13.5))/0.5,0))))\':x=30:y=600" uploads/overlayborderandtext.mp4';
 system($command);
 
 echo "<p></p>Text Overlay has been added\n\n";
